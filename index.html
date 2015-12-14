@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>PopcornJS sync animation to music</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		
+    <!-- WARNING! Steps 4/5/6/7/8: Start styling/CSS animation/Position the messages/Vertical alignment/Set the headings -->    
+    
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+                font-family: 'Oswald', sans-serif;
+                color: #ffba00;
+            }
+            audio { display: none; }
+            
+            .hide {
+                opacity: 0;
+                transition: opacity .5s ease-in-out;
+                -moz-transition: opacity .5s ease-in-out;
+                -webkit-transition: opacity .5 ease-in-out;
+            }
+            
+            .show {
+                opacity: 1;
+            }
+            
+            .outer {
+                z-index: 10;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0; left: 0;
+            }
+            
+            .middle {
+                min-height: 100%;
+                min-height: 100vh;
+                width: 100%;
+                display: -webkit-flex;
+                display: flex;
+                align-items: center;
+                -webkit-align-items: center;
+            }
+            
+            h1 {
+                font-size: 3.8em;
+                display: inline-block;
+                width: 40%;
+                margin: 0 auto;
+                text-align: center;
+                text-shadow: 3px 3px #000;
+            }
+        </style>
+        
+	</head>
+    <!-- END Step 4 through 8 WARNING! -->
+
+	<body>
+        
+        <!-- Step 1: Up and running -->
+        
+        <div id="one" class="outer hide">     
+            <div class="middle">
+                <h1>Globally, loss-related floods have more than tripled since 1980<br><small>Munich Re Insurance</small></h1>
+            </div>
+        </div>
+            
+        <!-- Step 2: Link to popcorn -->
+            
+        <div id="two" class="outer hide">
+            <div class="middle">
+                <h1>Rising temperatures produce fiercer, more frequent storms</h1>
+            </div>
+        </div>
+            
+        <div id="three" class="outer hide">
+            <div class="middle">
+                <h1>More CO<sub>2</sub> means </br>more severe storms</h1>
+            </div>
+        </div>
+            
+        <div id="four" class="outer hide">
+            <div class="middle">
+                <h1>Find out more at 350.org</br><img id="logo" src="img/350-logo-org-white.png"></h1>
+            </div>
+        </div>
+
+        <!-- Step 3: Add the music file -->
+
+        <audio id="myAudio">
+            <source src="autumn-leaf.mp3" type="audio/mpeg">
+        </audio>
+
+		<script src="js/three.min.js"></script>
+        <script src="js/CopyShader.js"></script>   		
+   		<script src="js/EffectComposer.js"></script>
+        <script src="js/RenderPass.js"></script>
+        <script src="js/ShaderPass.js"></script>
+        <script src="js/MaskPass.js"></script>
+        <script src="js/HorizontalTiltShiftShader.js"></script>
+        <script src="js/VerticalTiltShiftShader.js"></script>
+        <script src="js/tween.min.js"></script>
+        <script src="js/popcorn.min.js"></script>
+        <script src="js/scene.js"></script>
+
+        <!-- Step 9/10: Wait for the audio/Calling the music -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                init();
+                initMusic();
+            }, false);
+            
+        /* Step 11: Link and play */
+            function initMusic(){
+                /* Step 13: Sync to music */
+                var one = document.getElementById( 'one' );
+                var two = document.getElementById( 'two' );
+                var three = document.getElementById( 'three' );
+                var four = document.getElementById( 'four' );
+                
+                popcorn = Popcorn( "#myAudio" );
+                popcorn.play();
+        /* Step 12: Call the first animation */
+                camMove1();
+                
+                /* Step 14: Sync to music */
+                popcorn.cue( 1, function() {
+                    one.classList.add('show');
+                });
+                
+        /* Step 15: Move forward */
+                popcorn.cue( 13.3, function() {
+                    camMove2();
+                    one.classList.remove('show');
+                });
+                
+                /* Step 16: Add the message */
+                popcorn.cue( 15.8, function() {
+                    two.classList.add('show');
+                });
+                
+                /* Step 17: Lightning flashes */
+                popcorn.cue( 17.2, function() {
+                    lightOn();
+                });
+                popcorn.cue( 17.6, function() {
+                    lightOff();
+                });
+                
+                /* Step 18: Slight change to the color */
+                popcorn.cue( 18, function() {
+                    lightOn();
+                });
+                popcorn.cue( 18.4, function() {
+                    lightOff();
+                });
+                
+                /* Step 19: Continuing the journey */
+                popcorn.cue( 27.7, function() {
+                    camMove3();
+                    two.classList.remove('show');
+                });
+                
+                /* Step 20: The next message */
+                popcorn.cue( 30.2, function() {
+                    three.classList.add('show');
+                });
+                
+                /* Step 21: Final camera movement */
+                popcorn.cue( 40.5, function() {
+                    camMove4();
+                    three.classList.remove('show');
+                });
+                
+                /* Step 22: Finish off */
+                popcorn.cue( 43, function() {
+                    camMove4();
+                    four.classList.add('show');
+                });
+            }
+            
+            
+            
+        </script>
+		
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
